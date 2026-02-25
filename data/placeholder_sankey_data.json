@@ -1,0 +1,758 @@
+[
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 1
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 1
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Never",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 1
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 1
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Once/few times before",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 1
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Occasionally",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "More than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "About typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "More stressed",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Not much",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "About the same",
+		"after": "Reduced",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Increased",
+		"value": 0
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Not much",
+		"value": 1
+	},
+	{
+		"experience": "Regularly",
+		"before": "Less than typical",
+		"during": "Less stressed",
+		"after": "Reduced",
+		"value": 0
+	}
+]
