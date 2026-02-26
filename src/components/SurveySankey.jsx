@@ -74,7 +74,7 @@ export default function SurveySankey(props){
     }, [size]);
 
     return (
-        <Box sx={{ width: '100vw', height: '100vh', backgroundColor: '#ff7b42'}}>
+        <Box sx={{ width: '100vw', height: '100vh', minHeight: '720px', backgroundColor: '#ff7b42'}}>
             <h1>Can AI-generated VR scenes relieve stress?</h1>
             <Box sx={{width: '70%', height: '70%', margin: "auto", backgroundColor: "none", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%'></svg>
@@ -93,7 +93,8 @@ function drawChart(svgElement, size){
 
     const color = d3.scaleOrdinal(['Never'], ['#FFDDDD']).unknown('#CCC');
 
-    const svg = d3.select(svgElement)
+    const svg = d3.select(svgElement);
+    svg.selectAll('*').remove();
 
     // Clone node and link arrays
     // sankey() adds properties (coordinates, path width, etc.) to nodes and links
