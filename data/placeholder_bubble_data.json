@@ -1,0 +1,52 @@
+[
+    {
+        "term": "saturation",
+        "value": 8,
+        "positive": true
+    },
+    {
+        "term": "brightness",
+        "value": 7,
+        "positive": true
+    },
+    {
+        "term": "motion",
+        "value": 6,
+        "positive": true
+    },
+    {
+        "term": "location",
+        "value": 5,
+        "positive": true
+    },
+    {
+        "term": "transitions",
+        "value": 4,
+        "positive": true
+    },
+    {
+        "term": "saturation",
+        "value": 6,
+        "positive": false
+    },
+    {
+        "term": "brightness",
+        "value": 5,
+        "positive": false
+    },
+    {
+        "term": "motion",
+        "value": 4,
+        "positive": false
+    },
+    {
+        "term": "location",
+        "value": 3,
+        "positive": false
+    },
+    {
+        "term": "transitions",
+        "value": 2,
+        "positive": false
+    }
+]

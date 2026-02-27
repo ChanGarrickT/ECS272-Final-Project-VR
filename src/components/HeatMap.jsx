@@ -36,6 +36,7 @@ export default function HeatMap(props){
             <Box sx={{height: '80%', aspectRatio: '1', margin: "auto", backgroundColor: "white", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%'></svg>
                 <Slider
+                    sx={{color: 'tomato'}}
                     onChange={(e, val) => setCurrentInterval(val)}
                     defaultValue={0}
                     step={1}
