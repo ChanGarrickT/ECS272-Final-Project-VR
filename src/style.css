@@ -14,9 +14,17 @@
   margin: 0;
 }
 
+h1 {
+  padding-top: 50px;
+}
+
 #title {
   font-size: large;
   text-align: center;
   margin: 0;
+}
+
+.bubble-filter {
+  padding: 5px 20px;
 }
 
