@@ -18,13 +18,79 @@ h1 {
   padding-top: 50px;
 }
 
+p {
+  margin: 10px 0;
+}
+
 #title {
   font-size: large;
   text-align: center;
   margin: 0;
 }
 
-.bubble-filter {
-  padding: 5px 20px;
+.title-box {
+  width: 50%;
+  margin: auto;
+  color: #333;
 }
 
+.question-box {
+  position: absolute;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  line-height: 20px;
+  width: 230px;
+  height: 65px;
+  background-color: #ffe6bd;
+  font-style: italic;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.question-box > p {
+  margin: auto;
+}
+
+.rect-node {
+  fill: #7C444F;
+  stroke: #622B36;
+  stroke-width: 1px;
+  transition: fill 200ms, stroke 200ms;
+  cursor: pointer;
+}
+
+.rect-node:hover {
+  fill: #bb6164;
+}
+
+.rect-node-selected {
+  fill: #ef619c;
+  stroke: #C84C05;
+}
+
+.rect-node-selected:hover {
+  fill: #f68bb8;
+}
+
+.path-link {
+  stroke: #9e9938;
+  opacity: 0.5;
+  transition: stroke 200ms;
+}
+
+.path-link-active {
+  stroke: #e88b74;
+}
+
+.bubble-filter {
+  margin: 1px 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 200ms;
+}
+
+.bubble-filter:hover {
+  background-color: #c4f0d4;
+}

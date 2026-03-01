@@ -31,20 +31,40 @@ export default function HeatMap(props){
     }, [currentInterval]);
 
     return (
-        <Box sx={{ width: '100vw', height: '100vh', minHeight: '720px', backgroundColor: '#ffe262'}}>
-            <h1>Does stress correlate to increased variance in viewing direction?</h1>
-            <Box sx={{height: '80%', aspectRatio: '1', margin: "auto", backgroundColor: "white", borderRadius: '20px'}}>
+        <Box sx={{ width: '100vw', minHeight: '100vh', backgroundColor: '#FDFAAB'}}>
+            <Box className='title-box'>
+                <h1>Does stress correlate to increased variance in users' viewing direction?</h1>
+                <p>
+                    We tracked the y-coordinate of the virtual camera at 0.1 second intervals throughout the 3-minute session.
+                    Viewing direction was binned to 22.5º slices, and time was binned to 5-second intervals.
+                    Results are the average over all participants.
+                    "Forward" is defined as the starting orientation of each participant.
+                </p>
+                <p>
+                    Use the slider below to select an interval. A darker slice indicates more focus in that direction within that interval.
+                </p>
+            </Box>    
+            <Box sx={{width: '30%', maxWidth: '570px', aspectRatio: '1', margin: "20px auto", backgroundColor: "white", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%'></svg>
-                <Slider
-                    sx={{color: 'tomato'}}
-                    onChange={(e, val) => setCurrentInterval(val)}
-                    defaultValue={0}
-                    step={1}
-                    marks
-                    min={0}
-                    max={35}
-                />
             </Box>
+            <Grid container sx={{position: 'relative', width: '30%', maxWidth: '570px', margin: '0 auto', padding: '0 0 30px'}}>
+                <Box sx={{position: 'absolute', width: '100%', paddingLeft: '2.77%', top: '5px', zIndex: 1, boxSizing: 'border-box'}}>
+                    <Slider
+                        sx={{color: 'dodgerblue', zIndex: 1}}
+                        onChange={(e, val) => setCurrentInterval(val)}
+                        defaultValue={0}
+                        step={1}
+                        marks
+                        min={0}
+                        max={35}
+                        valueLabelDisplay='auto'
+                        valueLabelFormat={(x) => `${5 * x} - ${5 * x + 5} sec`}
+                    />
+                </Box>
+                <Grid size={4} sx={{backgroundColor: 'hsl(50, 100%, 75%)', textAlign: 'center', padding: '40px 0 15px', borderRadius: '8px 0 0 8px'}}>Busy Scene</Grid>
+                <Grid size={4} sx={{backgroundColor: 'hsl(60, 100%, 75%)', textAlign: 'center', padding: '40px 0 15px'}}>Moderate Scene</Grid>
+                <Grid size={4} sx={{backgroundColor: 'hsl(100, 100%, 87%)', textAlign: 'center', padding: '40px 0 15px', borderRadius: '0 8px 8px 0'}}>Calm Scene</Grid>
+            </Grid>
         </Box>
     )
 }
@@ -53,7 +73,23 @@ function drawChart(svgElement, interval, size){
     const svg = d3.select(svgElement);
     svg.selectAll('*').remove();
 
-    const innerRad = size.height / 2 - 10;
+    // Draw labels
+    svg.append('text')
+        .text('Left')
+        .attr('text-anchor', 'middle')
+        .style('transform', `translate(40px, ${size.height / 2}px) rotate(-90deg)`);
+    
+    svg.append('text')
+        .text('Right')
+        .attr('text-anchor', 'middle')
+        .style('transform', `translate(${size.width - 40}px, ${size.height / 2}px) rotate(90deg)`);
+    
+    svg.append('text')
+        .text('Forward')
+        .attr('text-anchor', 'middle')
+        .style('transform', `translate(${size.width / 2}px, 40px)`);
+
+    const innerRad = size.height / 2 - 60;
     const outerRad = innerRad / 2;
 
     const arc = d3.arc()

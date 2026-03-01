@@ -19,10 +19,13 @@ export default function SurveyBubble(props){
     }, [size, currentFilter]);
     
     return (
-        <Box sx={{ width: '100vw', height: '100vh', minHeight: '720px', backgroundColor: '#429485'}}>
-            <Box sx={{width: '70%', margin: 'auto', color: 'white'}}>
+        <Box sx={{ width: '100vw', height: '100vh', minHeight: '720px', backgroundColor: '#AAD9BB'}}>
+            <Box className='title-box'>
                 <h1>What factors should AI-generated scenes consider?</h1>
-                <p>We asked participants what aspects of the AI-generated VR experience contributed to a decrease in stress (blue circles) or increase in stress (yellow circles).</p>
+                <p>
+                    We asked participants what aspects of the AI-generated VR experience contributed to a decrease in stress (blue circles) or increase in stress (yellow circles).
+                    The size of the circle indicates approximately how many participants used the key term in their feedback.
+                </p>
             </Box>
             <Box sx={{width: '70%', height: '70%', margin: 'auto', backgroundColor: "none", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%' textAnchor='middle' dominantBaseline='middle'><g></g></svg>
