@@ -1,11 +1,11 @@
 import { Paper, Divider, Grid, Stack, Box } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import bubbleData from '../../data/placeholder_bubble_data.json'
 
-export default function SurveyBubble(props){
+const SurveyBubble = forwardRef((props, ref) => {
     const svgRef = useRef(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
     const [currentFilter, setCurrentFilter] = useState('');
@@ -19,7 +19,7 @@ export default function SurveyBubble(props){
     }, [size, currentFilter]);
     
     return (
-        <Box sx={{ width: '100vw', height: '100vh', minHeight: '720px', backgroundColor: '#AAD9BB'}}>
+        <Box ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px'}}>
             <Box className='title-box'>
                 <h1>What factors should AI-generated scenes consider?</h1>
                 <p>
@@ -37,7 +37,9 @@ export default function SurveyBubble(props){
             </Box>
         </Box>
     )
-}
+});
+
+export default SurveyBubble;
 
 function drawChart(svgElement, currentFilter, size){
     const svg = d3.select(svgElement);

@@ -1,5 +1,5 @@
 import { Paper, Divider, Slider, Grid, Stack, Box } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
@@ -11,7 +11,7 @@ const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
 const colorScale = d3.scaleSequential(d3.interpolateYlOrBr);
 const pie = d3.pie().value(1);
 
-export default function HeatMap(props){
+const HeatMap = forwardRef((props, ref) => {
     const svgRef = useRef(null);
     const sliceSelectionRef = useRef(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
@@ -31,7 +31,7 @@ export default function HeatMap(props){
     }, [currentInterval]);
 
     return (
-        <Box sx={{ width: '100vw', minHeight: '100vh', backgroundColor: '#FDFAAB'}}>
+        <Box ref={ref} sx={{position: 'relative', width: '100vw', minHeight: '100vh'}}>
             <Box className='title-box'>
                 <h1>Does stress correlate to increased variance in users' viewing direction?</h1>
                 <p>
@@ -67,7 +67,9 @@ export default function HeatMap(props){
             </Grid>
         </Box>
     )
-}
+});
+
+export default HeatMap;
 
 function drawChart(svgElement, interval, size){
     const svg = d3.select(svgElement);

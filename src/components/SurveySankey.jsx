@@ -1,5 +1,5 @@
 import { Paper, Divider, Button, Grid, Stack, Box } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
 import { isEmpty } from 'lodash';
@@ -63,7 +63,7 @@ function genGraph(){
     return [nodes, links];
 }
 
-export default function SurveySankey(props){
+const SurveySankey = forwardRef((props, ref) => {
     const svgRef = useRef(null);
     const rectsSelectionRef = useRef(null);
     const pathsSelectionRef = useRef(null);
@@ -102,7 +102,7 @@ export default function SurveySankey(props){
     }
 
     return (
-        <Box sx={{ width: '100vw', minHeight: '100vh', backgroundColor: '#FFCF81', paddingBottom: '50px'}}>
+        <Box ref={ref} sx={{position: 'relative', width: '100vw', minHeight: '100vh', paddingBottom: '50px'}}>
             <Box className='title-box'>
                 <h1>Can AI-generated VR scenes relieve stress?</h1>
                 <p>
@@ -113,16 +113,16 @@ export default function SurveySankey(props){
                 </p>
             </Box>
             <Box sx={{position: 'relative', width: '70%', height: '100px', margin: '30px auto 10px'}}>
-                <Box className='question-box' sx={{left: '-125px'}}>
+                <Box className='question-box' sx={{left: '-110px'}}>
                     <p>“How often do you use virtual reality (VR)?”</p>
                 </Box>
-                <Box className='question-box' sx={{left: 'calc(33.3% - 125px)'}}>
+                <Box className='question-box' sx={{left: 'calc(33.3% - 120px)'}}>
                     <p>“How would you describe your current level of stress?”</p>
                 </Box>
-                <Box className='question-box' sx={{left: 'calc(66.6% - 125px)'}}>
+                <Box className='question-box' sx={{left: 'calc(66.6% - 130px)'}}>
                     <p>“So far, are you less stressed, more stressed, or about the same?”</p>
                 </Box>
-                <Box className='question-box' sx={{left: 'calc(100% - 125px)'}}>
+                <Box className='question-box' sx={{left: 'calc(100% - 140px)'}}>
                     <p>“How did your level of stress change from the start?”</p>
                 </Box>
             </Box> 
@@ -131,7 +131,9 @@ export default function SurveySankey(props){
             </Box>
         </Box>
     )
-}
+});
+
+export default SurveySankey;
 
 function drawChart(svgElement, clickFunc, size){
     const sankey = d3Sankey.sankey()
