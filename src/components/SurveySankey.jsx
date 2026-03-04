@@ -103,7 +103,7 @@ const SurveySankey = forwardRef((props, ref) => {
 
     return (
         <Box ref={ref} sx={{position: 'relative', width: '100vw', minHeight: '100vh', paddingBottom: '50px'}}>
-            <Box className='title-box'>
+            <Box className='header-box' sx={{marginBottom: '30px'}}>
                 <h1>Can AI-generated VR scenes relieve stress?</h1>
                 <p>
                     We surveyed participants on their history of VR use, and their relative levels of stress before, during, and after the VR session.
@@ -111,6 +111,7 @@ const SurveySankey = forwardRef((props, ref) => {
                 <p>
                     Click on the rectangle for a response to compare how participants who gave that response answered other questions.
                 </p>
+                <h2 style={{textAlign: 'center', marginTop: '50px'}}>Survey Responses Sankey Diagram</h2>
             </Box>
             <Box sx={{position: 'relative', width: '70%', height: '100px', margin: '30px auto 10px'}}>
                 <Box className='question-box' sx={{left: '-110px'}}>

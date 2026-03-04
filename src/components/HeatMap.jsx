@@ -7,8 +7,9 @@ import azimuthData from '../../data/placeholder_heatmap_data.json'
 
 const DATA_MAX = 16;
 const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
+const SLICE_COLOR = 'crimson';
 
-const colorScale = d3.scaleSequential(d3.interpolateYlOrBr);
+const opacityScale = d3.scaleLinear([0, DATA_MAX], [0.1, 1]);
 const pie = d3.pie().value(1);
 
 const HeatMap = forwardRef((props, ref) => {
@@ -32,7 +33,7 @@ const HeatMap = forwardRef((props, ref) => {
 
     return (
         <Box ref={ref} sx={{position: 'relative', width: '100vw', minHeight: '100vh'}}>
-            <Box className='title-box'>
+            <Box className='header-box'>
                 <h1>Does stress correlate to increased variance in users' viewing direction?</h1>
                 <p>
                     We tracked the y-coordinate of the virtual camera at 0.1 second intervals throughout the 3-minute session.
@@ -44,10 +45,11 @@ const HeatMap = forwardRef((props, ref) => {
                     Use the slider below to select an interval. A darker slice indicates more focus in that direction within that interval.
                 </p>
             </Box>    
-            <Box sx={{width: '30%', maxWidth: '570px', aspectRatio: '1', margin: "20px auto", backgroundColor: "white", borderRadius: '20px'}}>
+            <Box sx={{position: 'relative', width: '40%', minWidth: '720px', aspectRatio: '1.5', margin: "50px auto", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%'></svg>
+                <img id='heatmap-head' src='head_top.svg' />
             </Box>
-            <Grid container sx={{position: 'relative', width: '30%', maxWidth: '570px', margin: '0 auto', padding: '0 0 30px'}}>
+            <Grid container sx={{position: 'relative', width: '30%', minWidth: '570px', margin: '0 auto', padding: '0 0 30px'}}>
                 <Box sx={{position: 'absolute', width: '100%', paddingLeft: '2.77%', top: '5px', zIndex: 1, boxSizing: 'border-box'}}>
                     <Slider
                         sx={{color: 'dodgerblue', zIndex: 1}}
@@ -75,40 +77,95 @@ function drawChart(svgElement, interval, size){
     const svg = d3.select(svgElement);
     svg.selectAll('*').remove();
 
+    // Draw title
+    svg.append('text')
+        .text('View Azimuth Heatmap')
+        .attr('font-size', 26)
+        .attr('font-weight', 'bold')
+        .attr('text-anchor', 'start')
+        .style('transform', 'translate(0, 30px)');
+
     // Draw labels
     svg.append('text')
         .text('Left')
+        .attr('font-size', 20)
         .attr('text-anchor', 'middle')
-        .style('transform', `translate(40px, ${size.height / 2}px) rotate(-90deg)`);
+        .style('transform', `translate(40px, ${size.height * 0.75}px) rotate(-90deg)`);
     
     svg.append('text')
         .text('Right')
+        .attr('font-size', 20)
         .attr('text-anchor', 'middle')
-        .style('transform', `translate(${size.width - 40}px, ${size.height / 2}px) rotate(90deg)`);
+        .style('transform', `translate(${size.width - 40}px, ${size.height * 0.75}px) rotate(90deg)`);
     
     svg.append('text')
         .text('Forward')
+        .attr('font-size', 20)
         .attr('text-anchor', 'middle')
         .style('transform', `translate(${size.width / 2}px, 40px)`);
+    
+    // Draw legend
+    svg.append('text')
+        .text('Increasing percentage of interval viewing a direction →')
+        .attr('font-size', 12)
+        .attr('text-anchor', 'end')
+        .style('transform', `translate(${size.width}px, 20px)`)
+    
+    svg.append('text')
+        .text('0%')
+        .attr('font-size', 12)
+        .attr('text-anchor', 'start')
+        .style('transform', `translate(${size.width - 250}px, 70px)`)
 
-    const innerRad = size.height / 2 - 60;
-    const outerRad = innerRad / 2;
+    svg.append('text')
+        .text('100%')
+        .attr('font-size', 12)
+        .attr('text-anchor', 'end')
+        .style('transform', `translate(${size.width}px, 70px)`)
+
+    const def = svg.append('defs');
+    const lingrad = def.append('linearGradient')
+        .attr('id', 'lingrad')
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '100%')
+        .attr('y2', '0%')
+    lingrad.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', SLICE_COLOR)
+        .attr('stop-opacity', '0.1')
+    lingrad.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', SLICE_COLOR)
+        .attr('stop-opacity', '1')
+
+    svg.append('rect')
+        .attr('x', size.width - 250)
+        .attr('y', 30)
+        .attr('width', 250)
+        .attr('height', 20)
+        .style('fill', 'url(#lingrad)')
+
+    // Draw slices
+    const outerRad = size.width / 2 - 60;
+    const innerRad = outerRad / 2;
 
     const arc = d3.arc()
         .innerRadius(innerRad)
         .outerRadius(outerRad);
 
     const g = svg.append('g')
-        .style('transform', `translate(${size.width/2}px, ${size.height/2}px) rotate(${-360/32}deg)`)
+        .style('transform', `translate(${size.width/2}px, ${size.height * 0.75}px) rotate(${-360 / 32}deg)`)
     
     // datum(): shared data among selection
     // data(): one array item per selected element
     g.datum(azimuthData[interval]).selectAll('path')
         .data(pie)
         .join('path')
-        .attr('fill', (d) => SLICE_MASK.includes(d.index) ? colorScale(d.data/DATA_MAX) : 'none')
-        .attr('stroke', 'white')
+        .attr('fill', SLICE_COLOR)
+        .attr('stroke', '#FDFAAB')
         .attr('stroke-width', 3)
+        .attr('opacity', (d) => SLICE_MASK.includes(d.index) ? opacityScale(d.data) : 0)
         .attr('d', arc)
     
     return g;
@@ -117,5 +174,5 @@ function drawChart(svgElement, interval, size){
 function recolorChart(slices, interval){
     slices.datum(azimuthData[interval]).selectAll('path')
         .data(pie)
-        .attr('fill', (d) => SLICE_MASK.includes(d.index) ? colorScale(d.data/DATA_MAX) : 'none')
+        .attr('opacity', (d) => SLICE_MASK.includes(d.index) ? opacityScale(d.data) : 0)
 }

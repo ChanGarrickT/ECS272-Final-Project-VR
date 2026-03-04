@@ -26,13 +26,45 @@ p {
   margin: 10px 0;
 }
 
-#title {
-  font-size: large;
-  text-align: center;
-  margin: 0;
+#title-img {
+  max-height: 50vh;
+  padding-left: 30%;
 }
 
-.title-box {
+.title-box > * {
+  text-align: start;
+  margin-left: 10%;
+  margin-bottom: 20px;
+}
+
+.title-box > h1 {
+  width: 70%;
+  font-size: 32pt;
+}
+
+.title-box > p {
+  width: 70%;
+  font-size: 16pt;
+}
+
+.chevron {
+  position: absolute;
+  display: block;
+}
+
+#chevron1 {
+  top: 90vh;
+  margin: 0 45%;
+  opacity: 0.5;
+}
+
+#chevron2 {
+  top: calc(90vh - 30px);
+  margin: 0 45.5%;
+  opacity: 0.5;
+}
+
+.header-box {
   width: 50%;
   margin: auto;
   color: #333;
@@ -85,6 +117,24 @@ p {
 
 .path-link-active {
   stroke: #e88b74;
+}
+
+#heatmap-head {
+  position: absolute;
+  height: 50%;
+  margin: auto;
+  top: 50%;
+  left: 0;
+  right: 0;
+}
+
+.xAxis > .tick > text {
+  font-size: 12pt;
+}
+
+.yAxis > .tick > text {
+  font-size: 12pt;
+  transform: translate(0, -4px);
 }
 
 .bubble-filter {

@@ -1,52 +1,27 @@
 [
     {
         "term": "saturation",
-        "value": 8,
-        "positive": true
+        "positive": 8,
+        "negative": 6
     },
     {
         "term": "brightness",
-        "value": 7,
-        "positive": true
+        "positive": 7,
+        "negative": 5
     },
     {
         "term": "motion",
-        "value": 6,
-        "positive": true
+        "positive": 6,
+        "negative": 8
     },
     {
         "term": "location",
-        "value": 5,
-        "positive": true
+        "positive": 5,
+        "negative": 1
     },
     {
         "term": "transitions",
-        "value": 4,
-        "positive": true
-    },
-    {
-        "term": "saturation",
-        "value": 6,
-        "positive": false
-    },
-    {
-        "term": "brightness",
-        "value": 5,
-        "positive": false
-    },
-    {
-        "term": "motion",
-        "value": 4,
-        "positive": false
-    },
-    {
-        "term": "location",
-        "value": 3,
-        "positive": false
-    },
-    {
-        "term": "transitions",
-        "value": 2,
-        "positive": false
+        "positive": 4,
+        "negative": 5
     }
 ]
