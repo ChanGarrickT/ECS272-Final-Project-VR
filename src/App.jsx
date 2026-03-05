@@ -10,9 +10,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 import SurveySankey from './components/SurveySankey';
-import HeatMap from './components/HeatMap';
-import SurveyBubble from './components/SurveyBubble';
+import HeatMapPage from './components/HeatMapPage';
+import SurveyBar from './components/SurveyBar';
 import TitleScreen from './components/TitleScreen';
+import SummaryPage from './components/SummaryPage';
 
 // Adjust the color theme for material ui
 const theme = createTheme({
@@ -28,16 +29,17 @@ const theme = createTheme({
 
 function Layout() {
 	const containerRef = useRef(null);
-	const [titleRef, sankeyRef, heatmapRef, bubbleRef] = [useRef(null), useRef(null), useRef(null), useRef(null)];
+	const [titleRef, sankeyRef, heatmapRef, bubbleRef, summaryRef] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
 	useGSAP(() => {
 		const body = containerRef.current;
 
 		const sections = [
 			{ref: titleRef, color: '#EEE'},
-			{ref: sankeyRef, color: '#FFCF81'},
-			{ref: heatmapRef, color: '#FDFAAB'},
-			{ref: bubbleRef, color: '#AAD9BB'}
+			{ref: sankeyRef, color: '#ffdda6'},
+			{ref: heatmapRef, color: '#fdf2ab'},
+			{ref: bubbleRef, color: '#AAD9BB'},
+			{ref: summaryRef, color: '#bfe9f6'}
 		];
 
 		// Set up scrollTrigger for each section
@@ -61,8 +63,9 @@ function Layout() {
         <Box ref={containerRef} id="main-container">
 			<TitleScreen ref={titleRef} />
 			<SurveySankey ref={sankeyRef}/>
-			<HeatMap ref={heatmapRef}/>
-			<SurveyBubble ref={bubbleRef}/>
+			<HeatMapPage ref={heatmapRef}/>
+			<SurveyBar ref={bubbleRef}/>
+			<SummaryPage ref={summaryRef} />
         </Box>
     );
 }

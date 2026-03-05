@@ -3,17 +3,17 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import bubbleData from '../../data/placeholder_bubble_data.json'
+import bubbleData from '../../data/placeholder_bubble_data.json';
 
 const margins = {top: 60, bottom: 80, left: 60, right: 10};
-const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#00aae3', '#488048']
+const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
 
 let maxCount = 0;
 for (const d of bubbleData){
     maxCount = Math.max(maxCount, d.positive, d.negative);
 }
 
-const SurveyBubble = forwardRef((props, ref) => {
+const SurveyBar = forwardRef((props, ref) => {
     const svgRef = useRef(null);
     const [positiveBarsRef, negativeBarsRef, xAxisRef, yScaleRef] = [useRef(null), useRef(null), useRef(null), useRef(null)];
     const [size, setSize] = useState({ width: 0, height: 0 });
@@ -66,7 +66,7 @@ const SurveyBubble = forwardRef((props, ref) => {
     )
 });
 
-export default SurveyBubble;
+export default SurveyBar;
 
 function drawChart(svgElement, size){
     const svg = d3.select(svgElement);

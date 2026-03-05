@@ -3,152 +3,116 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import azimuthData from '../../data/placeholder_heatmap_data.json'
+import azimuthData from '../../data/placeholder_heatmap_data.json';
 
-const DATA_MAX = 16;
+const DATA_MAX = 40;
 const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
 const SLICE_COLOR = 'crimson';
 
 const opacityScale = d3.scaleLinear([0, DATA_MAX], [0.1, 1]);
 const pie = d3.pie().value(1);
 
-const HeatMap = forwardRef((props, ref) => {
+export default function HeatMap(props){
     const svgRef = useRef(null);
     const sliceSelectionRef = useRef(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
-    const [currentInterval, setCurrentInterval] = useState(0);
 
     const onResize = useDebounceCallback((size) => setSize(size), 200);
     useResizeObserver({ ref: svgRef, onResize });
 
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
-        sliceSelectionRef.current = drawChart(svgRef.current, currentInterval, size);
+        sliceSelectionRef.current = drawChart(svgRef.current, props.currentInterval + props.intervalOffset, size, props);
     }, [size]);
 
     useEffect(() => {
         if(!sliceSelectionRef.current) return;
-        recolorChart(sliceSelectionRef.current, currentInterval);
-    }, [currentInterval]);
+        recolorChart(sliceSelectionRef.current, props.currentInterval + props.intervalOffset);
+    }, [props.currentInterval]);
 
     return (
-        <Box ref={ref} sx={{position: 'relative', width: '100vw', minHeight: '100vh'}}>
-            <Box className='header-box'>
-                <h1>Does stress correlate to increased variance in users' viewing direction?</h1>
-                <p>
-                    We tracked the y-coordinate of the virtual camera at 0.1 second intervals throughout the 3-minute session.
-                    Viewing direction was binned to 22.5º slices, and time was binned to 5-second intervals.
-                    Results are the average over all participants.
-                    "Forward" is defined as the starting orientation of each participant.
-                </p>
-                <p>
-                    Use the slider below to select an interval. A darker slice indicates more focus in that direction within that interval.
-                </p>
-            </Box>    
-            <Box sx={{position: 'relative', width: '40%', minWidth: '720px', aspectRatio: '1.5', margin: "50px auto", borderRadius: '20px'}}>
-                <svg ref={svgRef} width='100%' height='100%'></svg>
-                <img id='heatmap-head' src='head_top.svg' />
-            </Box>
-            <Grid container sx={{position: 'relative', width: '30%', minWidth: '570px', margin: '0 auto', padding: '0 0 30px'}}>
-                <Box sx={{position: 'absolute', width: '100%', paddingLeft: '2.77%', top: '5px', zIndex: 1, boxSizing: 'border-box'}}>
-                    <Slider
-                        sx={{color: 'dodgerblue', zIndex: 1}}
-                        onChange={(e, val) => setCurrentInterval(val)}
-                        defaultValue={0}
-                        step={1}
-                        marks
-                        min={0}
-                        max={35}
-                        valueLabelDisplay='auto'
-                        valueLabelFormat={(x) => `${5 * x} - ${5 * x + 5} sec`}
-                    />
-                </Box>
-                <Grid size={4} sx={{backgroundColor: 'hsl(50, 100%, 75%)', textAlign: 'center', padding: '40px 0 15px', borderRadius: '8px 0 0 8px'}}>Busy Scene</Grid>
-                <Grid size={4} sx={{backgroundColor: 'hsl(60, 100%, 75%)', textAlign: 'center', padding: '40px 0 15px'}}>Moderate Scene</Grid>
-                <Grid size={4} sx={{backgroundColor: 'hsl(100, 100%, 87%)', textAlign: 'center', padding: '40px 0 15px', borderRadius: '0 8px 8px 0'}}>Calm Scene</Grid>
-            </Grid>
+        <Box sx={{position: 'relative', width: '100%', height: '100%'}}>
+            <svg ref={svgRef} width='100%' height='100%'></svg>
+            <img className='heatmap-head' src='head_top.svg' />
         </Box>
     )
-});
+}
 
-export default HeatMap;
-
-function drawChart(svgElement, interval, size){
+function drawChart(svgElement, interval, size, props){
     const svg = d3.select(svgElement);
     svg.selectAll('*').remove();
 
-    // Draw title
-    svg.append('text')
-        .text('View Azimuth Heatmap')
-        .attr('font-size', 26)
-        .attr('font-weight', 'bold')
-        .attr('text-anchor', 'start')
-        .style('transform', 'translate(0, 30px)');
+    if(props.drawTitleLegend){
+        // Draw title
+        svg.append('text')
+            .text('View Azimuth Heatmap')
+            .attr('font-size', 26)
+            .attr('font-weight', 'bold')
+            .attr('text-anchor', 'start')
+            .style('transform', 'translate(0, 30px)');
+
+        // Draw legend
+        svg.append('text')
+            .text('Increasing percentage of interval viewing a direction →')
+            .attr('font-size', 12)
+            .attr('text-anchor', 'end')
+            .style('transform', `translate(${size.width}px, 20px)`)        
+        svg.append('text')
+            .text('0%')
+            .attr('font-size', 12)
+            .attr('text-anchor', 'start')
+            .style('transform', `translate(${size.width - 250}px, 70px)`)
+        svg.append('text')
+            .text('100%')
+            .attr('font-size', 12)
+            .attr('text-anchor', 'end')
+            .style('transform', `translate(${size.width}px, 70px)`)
+
+        const def = svg.append('defs');
+        const lingrad = def.append('linearGradient')
+            .attr('id', 'lingrad')
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '0%')
+        lingrad.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', SLICE_COLOR)
+            .attr('stop-opacity', '0.1')
+        lingrad.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', SLICE_COLOR)
+            .attr('stop-opacity', '1')
+
+        svg.append('rect')
+            .attr('x', size.width - 250)
+            .attr('y', 30)
+            .attr('width', 250)
+            .attr('height', 20)
+            .style('fill', 'url(#lingrad)')
+    }    
+
+    // Draw slices
+    const outerRad = size.height * 0.75 - 60;
+    const innerRad = outerRad / 2;
 
     // Draw labels
     svg.append('text')
         .text('Left')
         .attr('font-size', 20)
         .attr('text-anchor', 'middle')
-        .style('transform', `translate(40px, ${size.height * 0.75}px) rotate(-90deg)`);
-    
+        .style('transform', `translate(${size.width / 2 - outerRad - 20}px, ${size.height * 0.75}px) rotate(-90deg)`);    
     svg.append('text')
         .text('Right')
         .attr('font-size', 20)
         .attr('text-anchor', 'middle')
-        .style('transform', `translate(${size.width - 40}px, ${size.height * 0.75}px) rotate(90deg)`);
-    
+        .style('transform', `translate(${size.width / 2 + outerRad + 20}px, ${size.height * 0.75}px) rotate(90deg)`);    
     svg.append('text')
         .text('Forward')
         .attr('font-size', 20)
         .attr('text-anchor', 'middle')
         .style('transform', `translate(${size.width / 2}px, 40px)`);
-    
-    // Draw legend
-    svg.append('text')
-        .text('Increasing percentage of interval viewing a direction →')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'end')
-        .style('transform', `translate(${size.width}px, 20px)`)
-    
-    svg.append('text')
-        .text('0%')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'start')
-        .style('transform', `translate(${size.width - 250}px, 70px)`)
 
-    svg.append('text')
-        .text('100%')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'end')
-        .style('transform', `translate(${size.width}px, 70px)`)
-
-    const def = svg.append('defs');
-    const lingrad = def.append('linearGradient')
-        .attr('id', 'lingrad')
-        .attr('x1', '0%')
-        .attr('y1', '0%')
-        .attr('x2', '100%')
-        .attr('y2', '0%')
-    lingrad.append('stop')
-        .attr('offset', '0%')
-        .attr('stop-color', SLICE_COLOR)
-        .attr('stop-opacity', '0.1')
-    lingrad.append('stop')
-        .attr('offset', '100%')
-        .attr('stop-color', SLICE_COLOR)
-        .attr('stop-opacity', '1')
-
-    svg.append('rect')
-        .attr('x', size.width - 250)
-        .attr('y', 30)
-        .attr('width', 250)
-        .attr('height', 20)
-        .style('fill', 'url(#lingrad)')
-
-    // Draw slices
-    const outerRad = size.width / 2 - 60;
-    const innerRad = outerRad / 2;
 
     const arc = d3.arc()
         .innerRadius(innerRad)
@@ -163,10 +127,9 @@ function drawChart(svgElement, interval, size){
         .data(pie)
         .join('path')
         .attr('fill', SLICE_COLOR)
-        .attr('stroke', '#FDFAAB')
-        .attr('stroke-width', 3)
         .attr('opacity', (d) => SLICE_MASK.includes(d.index) ? opacityScale(d.data) : 0)
         .attr('d', arc)
+        .classed('slice', true)
     
     return g;
 }

@@ -88,7 +88,7 @@ p {
   margin: auto;
 }
 
-.rect-node {
+#sankey-page .rect-node {
   fill: #7C444F;
   stroke: #622B36;
   stroke-width: 1px;
@@ -96,30 +96,35 @@ p {
   cursor: pointer;
 }
 
-.rect-node:hover {
+#sankey-page .rect-node:hover {
   fill: #bb6164;
 }
 
-.rect-node-selected {
+#sankey-page .rect-node-selected {
   fill: #ef619c;
   stroke: #C84C05;
 }
 
-.rect-node-selected:hover {
+#sankey-page .rect-node-selected:hover {
   fill: #f68bb8;
 }
 
-.path-link {
-  stroke: #9e9938;
+#sankey-page .path-link {
+  stroke: #cab67d;
   opacity: 0.5;
   transition: stroke 200ms;
 }
 
-.path-link-active {
-  stroke: #e88b74;
+#sankey-page .path-link-active {
+  stroke: #e87474;
 }
 
-#heatmap-head {
+#heatmap-page .slice {
+  stroke: #FDFAAB;
+  stroke-width: 3;
+}
+
+#heatmap-page .heatmap-head {
   position: absolute;
   height: 50%;
   margin: auto;
@@ -147,4 +152,49 @@ p {
 
 .bubble-filter:hover {
   background-color: #c4f0d4;
+}
+
+#summary-page .rect-node {
+  fill: #445c7c;
+  stroke: #2b3062;
+  stroke-width: 1px;
+  transition: fill 200ms, stroke 200ms;
+  cursor: pointer;
+}
+
+#summary-page .rect-node:hover {
+  fill: #668bbb;
+}
+
+#summary-page .rect-node-selected {
+  fill: #58a1ff;
+  stroke: #3e5eaf;
+}
+
+#summary-page .rect-node-selected:hover {
+  fill: #73b0ff;
+}
+
+#summary-page .path-link {
+  stroke: #95b2d4;
+  opacity: 0.5;
+  transition: stroke 200ms;
+}
+
+#summary-page .path-link-active {
+  stroke: #18c9ff;
+}
+
+#summary-page .slice {
+  stroke: #bfe9f6;
+  stroke-width: 3;
+}
+
+#summary-page .heatmap-head {
+  position: absolute;
+  height: 40%;
+  margin: auto;
+  top: 60%;
+  left: 0;
+  right: 0;
 }
