@@ -3,13 +3,38 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import bubbleData from '../../data/placeholder_bubble_data.json';
+import studyResults from '../../data/placeholder_combined_data.json';
 
 const margins = {top: 60, bottom: 80, left: 60, right: 10};
 const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
 
+let barData = [];
+let words = new Set();
+// Generate data structure for the chart
+const positiveTermCount = {}
+const negativeTermCount = {}
+for(const d of studyResults){
+    for(const t of d.pTerms) {
+        if(Object.hasOwn(positiveTermCount, t)) positiveTermCount[t] += 1;
+        else positiveTermCount[t] = 1;
+        words.add(t);
+    }
+    for(const t of d.nTerms) {
+        if(Object.hasOwn(negativeTermCount, t)) negativeTermCount[t] += 1;
+        else negativeTermCount[t] = 1;
+        words.add(t);
+    }
+}
+for(const word of words){
+    barData.push({
+        term: word,
+        positive: positiveTermCount[word] ? positiveTermCount[word] : 0,
+        negative: negativeTermCount[word] ? negativeTermCount[word] : 0
+    })
+}
+
 let maxCount = 0;
-for (const d of bubbleData){
+for (const d of barData){
     maxCount = Math.max(maxCount, d.positive, d.negative);
 }
 
@@ -17,7 +42,7 @@ const SurveyBar = forwardRef((props, ref) => {
     const svgRef = useRef(null);
     const [positiveBarsRef, negativeBarsRef, xAxisRef, yScaleRef] = [useRef(null), useRef(null), useRef(null), useRef(null)];
     const [size, setSize] = useState({ width: 0, height: 0 });
-    const [data, setData] = useState([...bubbleData].toSorted(getSortFunc('total')));
+    const [data, setData] = useState([...barData].toSorted(getSortFunc('total')));
     const [currentSortMode, setSortMode] = useState('total');
 
     const onResize = useDebounceCallback((size) => setSize(size), 200);

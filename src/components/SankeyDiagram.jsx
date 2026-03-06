@@ -30,20 +30,26 @@ export default function SankeyDiagram(props){
         if(size.width === 0 || size.height === 0) return;
         if(!rectsSelectionRef || !pathsSelectionRef.current) return;
         recolorChart(rectsSelectionRef.current, pathsSelectionRef.current, currentNode);
+        if(props.setResponseFilter){
+            if(currentNode) props.setResponseFilter({question: `q${currentNode.questionNumber+1}`, answer: currentNode.answerNumber});
+            else props.setResponseFilter(null);
+        }
     }, [currentNode]);
 
     function selectNode(d){
+        // Note the currently active node
         setCurrentNode((prev) => {
             if(!prev || d.index !== prev.index){
                 return {
                     questionNumber: d.questionNumber,
+                    answerNumber: d.answerNumber,
                     answer: d.name,
                     index: d.index
-                }
+                };
             } else {
-                return null
+                return null;
             }
-        })
+        });
     }
 
     return (
@@ -53,6 +59,12 @@ export default function SankeyDiagram(props){
 
 function genGraph(){
     const keys = ["experience", "before", "during", "after"];
+    const qas = [
+        ['Never', 'Once/few times before', 'Occasionally', 'Regularly'],
+        ['More than typical', 'About typical', 'Less than typical'],
+        ['More stressed', 'About the same', 'Less stressed'],
+        ['Increased', 'Not much', 'Reduced']
+    ]
     let index = -1;
     const nodes = [];
     const links = [];
@@ -68,7 +80,8 @@ function genGraph(){
         for(const d of surveyData){
             const key = [k, d[k]];
             if(nodeByKey.has(key)) continue;
-            const node = {name: d[k], questionNumber: keys.indexOf(k), index: ++index};
+            const questionNumber = keys.indexOf(k);
+            const node = {name: d[k], questionNumber: questionNumber, answerNumber: qas[questionNumber].indexOf(d[k]), index: ++index};
             nodes.push(node);
             nodeByKey.set(key, node);
             indexByKey.set(key, index);

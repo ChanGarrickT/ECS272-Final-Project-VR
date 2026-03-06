@@ -3,9 +3,6 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-
-import azimuthData from '../../data/placeholder_heatmap_data.json'
-import bubbleData from '../../data/placeholder_bubble_data.json';
 import SankeyDiagram from './SankeyDiagram';
 import HeatMap from './HeatMap';
 import BubbleChart from './BubbleChart';
@@ -14,7 +11,9 @@ const SLICE_COLOR = 'crimson';
 
 const SummaryPage = forwardRef((props, ref) => {
     const legendRef = useRef(null);
+    const tooltipRef = useRef(null);
     const [currentInterval, setCurrentInterval] = useState(0);
+    const [responseFilter, setResponseFilter] = useState(null);
 
     const [size, setSize] = useState({ width: 0, height: 0 });
     const onResize = useDebounceCallback((size) => setSize(size), 200);
@@ -25,28 +24,59 @@ const SummaryPage = forwardRef((props, ref) => {
         drawLegend(legendRef.current, size);
     }, [size]);
 
+    function showTooltip(e, text){
+        d3.select(tooltipRef.current)
+            .text(text)
+            .style('left', `${e.clientX + 10}px`)
+            .style('top', `${e.clientY + 10}px`)
+            .transition()
+            .duration(150)
+            .style('opacity', 1)
+    }
+
+    function hideTooltip(){
+        d3.select(tooltipRef.current)
+            .transition()
+            .duration(150)
+            .style('opacity', 0)
+    }
+
+    const sankeyProps = {
+        setResponseFilter: setResponseFilter
+    }
+
+    const bubbleProps = {
+        responseFilter: responseFilter
+    }
+
     return (
         <Box id='summary-page' ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px', display: 'flex', flexDirection: 'column'}}>
             <Box className='header-box'>
                 <h1>Summary</h1>
                 <p>Now feel free to explore the data on your own! Click on the answers in the Sankey diagram to filter results by response.</p>
-            </Box> 
+            </Box>
+            <Box ref={tooltipRef} className='tooltip'></Box>
             <Grid container sx={{flex: 1, padding: '20px 0'}}>
                 <Grid container size={12} sx={{height: '40vh'}}>
-                    <Grid size={8}>
-                        <h2 style={{marginLeft: '50px'}}>Survey Responses</h2>
-                        <Box sx={{width: '100%', height: '100%', padding: '30px 30px 30px 50px', boxSizing: 'border-box'}}>
-                            <SankeyDiagram />
+                    <Grid size={8} sx={{paddingLeft: '50px', paddingRight: '30px'}}>
+                        <h2>Survey Responses</h2><br />
+                        <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                            {props.surveyQuestions.map((q, index) => {
+                                return <Box key={index} className='question-icon' onMouseOver={(e) => showTooltip(e, q)} onMouseOut={hideTooltip}>?</Box>
+                            })}
+                        </Box>
+                        <Box sx={{width: '100%', height: '100%', padding: '10px 0 50px 0', boxSizing: 'border-box'}}>
+                            <SankeyDiagram {...sankeyProps}/>
                         </Box>
                     </Grid>
                     <Grid size={4} sx={{position: 'relative'}}>
                         <h2>Feedback Terms by Mention Count</h2>
                         <Box sx={{width: '100%', height: '100%', padding: '0 30px', boxSizing: 'border-box'}}>
-                            <BubbleChart />
+                            <BubbleChart {...bubbleProps}/>
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container size={12} spacing={5} sx={{height: '40%', position: 'relative', padding: '0 100px'}}>
+                <Grid container size={12} spacing={5} sx={{height: '40%', position: 'relative', padding: '0 50px'}}>
                     <Grid size={1.5} sx={{position: 'relative'}}>
                         <h2>Split Heat Map</h2>
                         <p>The heatmap shown before is now split into three, making it easier to compare viewing behavior across scenes.</p>
@@ -63,6 +93,7 @@ const SummaryPage = forwardRef((props, ref) => {
                                 valueLabelFormat={(x) => `${5 * x} - ${5 * x + 5} sec`}
                             />
                             <Box sx={{marginTop: '30px'}}>
+                                <p style={{fontSize: '11pt'}}>Increasing portion of interval viewing a direction →</p>
                                 <svg ref={legendRef} width='100%' height='100%'></svg>
                             </Box>
                         </Box>
@@ -71,7 +102,8 @@ const SummaryPage = forwardRef((props, ref) => {
                         const chartProps = {
                             currentInterval: currentInterval,
                             intervalOffset: 12 * index,
-                            drawTitleLegend: false
+                            drawTitleLegend: false,
+                            responseFilter: responseFilter
                         }
                         return (
                             <Grid key={index} size={3.5}>
@@ -92,24 +124,7 @@ export default SummaryPage;
 
 function drawLegend(svgElement, size){
     const svg = d3.select(svgElement);
-    svg.selectAll('*').remove();
-
-    // Text
-    svg.append('text')
-        .text('Increasing percentage of interval viewing a direction →')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'middle')
-        .style('transform', `translate(${size.width / 2}px, 20px)`)        
-    svg.append('text')
-        .text('0%')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'start')
-        .style('transform', `translate(0, 70px)`)
-    svg.append('text')
-        .text('100%')
-        .attr('font-size', 12)
-        .attr('text-anchor', 'end')
-        .style('transform', `translate(${size.width}px, 70px)`)
+    svg.selectAll('*').remove();       
 
     // Gradient
     const def = svg.append('defs');
@@ -130,7 +145,7 @@ function drawLegend(svgElement, size){
 
     svg.append('rect')
         .attr('x', 0)
-        .attr('y', 30)
+        .attr('y', 0)
         .attr('width', size.width)
         .attr('height', 20)
         .style('fill', 'url(#lingrad)')

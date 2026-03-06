@@ -20,18 +20,14 @@ const SurveySankey = forwardRef((props, ref) => {
                 <h2 style={{textAlign: 'center', marginTop: '50px'}}>Survey Responses Sankey Diagram</h2>
             </Box>
             <Box sx={{position: 'relative', width: '70%', height: '100px', margin: '30px auto 10px'}}>
-                <Box className='question-box' sx={{left: '-110px'}}>
-                    <p>“How often do you use virtual reality (VR)?”</p>
-                </Box>
-                <Box className='question-box' sx={{left: 'calc(33.3% - 120px)'}}>
-                    <p>“How would you describe your current level of stress?”</p>
-                </Box>
-                <Box className='question-box' sx={{left: 'calc(66.6% - 130px)'}}>
-                    <p>“So far, are you less stressed, more stressed, or about the same?”</p>
-                </Box>
-                <Box className='question-box' sx={{left: 'calc(100% - 140px)'}}>
-                    <p>“How did your level of stress change from the start?”</p>
-                </Box>
+                {props.surveyQuestions.map((q, index) => {
+                    return (
+                        <Box key={index} className='question-box' sx={{left: `calc(${index * 100 / 3}% - ${110 + (10 * index)}px)`}}>
+                            <p>{q}</p>
+                        </Box>
+                    )
+                })
+                }
             </Box> 
             <Box sx={{width: '70%', aspectRatio: 2.25, minWidth: '900px', minHeight: '300px', margin: "auto"}}>
                 <SankeyDiagram />

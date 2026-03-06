@@ -4,22 +4,9 @@ import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import bubbleData from '../../data/placeholder_bubble_data.json';
+import studyResults from '../../data/placeholder_combined_data.json';
 
 const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
-
-let terms = [];
-for (const d of bubbleData){
-    terms.push({
-        term: d.term,
-        value: d.positive,
-        positive: true
-    });
-    terms.push({
-        term: d.term,
-        value: d.negative,
-        positive: false
-    });
-}
 
 export default function BubbleChart(props){
     const svgRef = useRef(null);
@@ -30,8 +17,37 @@ export default function BubbleChart(props){
 
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
-        drawChart(svgRef.current, size);
-    }, [size]);
+        const filterFunc = !props.responseFilter ? (() => true) : ((d) => d[props.responseFilter.question] === props.responseFilter.answer);
+        // Generate data structure for the chart
+        const positiveTermCount = {}
+        const negativeTermCount = {}
+        for(const d of studyResults.filter(filterFunc)){
+            for(const t of d.pTerms) {
+                if(Object.hasOwn(positiveTermCount, t)) positiveTermCount[t] += 1;
+                else positiveTermCount[t] = 1;
+            }
+            for(const t of d.nTerms) {
+                if(Object.hasOwn(negativeTermCount, t)) negativeTermCount[t] += 1;
+                else negativeTermCount[t] = 1;
+            }
+        }
+        let terms = [];
+        for(const [key, value] of Object.entries(positiveTermCount)){
+            terms.push({
+                term: key,
+                value: value,
+                positive: true
+            })
+        }
+        for(const [key, value] of Object.entries(negativeTermCount)){
+            terms.push({
+                term: key,
+                value: value,
+                positive: false
+            })
+        }
+        drawChart(svgRef.current, terms, size);
+    }, [size, props.responseFilter]);
     
     return (
         <Box sx={{width: '100%', height: '100%'}}>
@@ -40,7 +56,7 @@ export default function BubbleChart(props){
     )
 };
 
-function drawChart(svgElement, size){
+function drawChart(svgElement, terms, size){
     const svg = d3.select(svgElement);
 
     const color = d3.scaleOrdinal([true, false], [POSITIVE_COLOR, NEGATIVE_COLOR]);

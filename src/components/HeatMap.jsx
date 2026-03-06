@@ -3,31 +3,38 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import azimuthData from '../../data/placeholder_heatmap_data.json';
+import { add, max } from 'mathjs';
+import studyResults from '../../data/placeholder_combined_data.json';
 
-const DATA_MAX = 40;
 const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
 const SLICE_COLOR = 'crimson';
 
-const opacityScale = d3.scaleLinear([0, DATA_MAX], [0.1, 1]);
 const pie = d3.pie().value(1);
 
 export default function HeatMap(props){
     const svgRef = useRef(null);
     const sliceSelectionRef = useRef(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
+    const [renderData, setRenderData] = useState(null);
+    const [currentMax, setCurrentMax] = useState(0);
 
     const onResize = useDebounceCallback((size) => setSize(size), 200);
     useResizeObserver({ ref: svgRef, onResize });
 
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
-        sliceSelectionRef.current = drawChart(svgRef.current, props.currentInterval + props.intervalOffset, size, props);
-    }, [size]);
+        const filterFunc = !props.responseFilter ? (() => true) : ((d) => d[props.responseFilter.question] === props.responseFilter.answer);
+        const azimuthData = studyResults.filter(filterFunc).map(d => d.azimuth);
+        const newRenderData = azimuthData.reduce((accum, current) => add(accum, current));
+        const newMax = max(newRenderData);
+        setRenderData(newRenderData);
+        setCurrentMax(newMax);
+        sliceSelectionRef.current = drawChart(svgRef.current, newRenderData, newMax, props.currentInterval + props.intervalOffset, size, props);
+    }, [size, props.responseFilter]);
 
     useEffect(() => {
-        if(!sliceSelectionRef.current) return;
-        recolorChart(sliceSelectionRef.current, props.currentInterval + props.intervalOffset);
+        if(!sliceSelectionRef.current || !renderData) return;
+        recolorChart(sliceSelectionRef.current, renderData, currentMax, props.currentInterval + props.intervalOffset);
     }, [props.currentInterval]);
 
     return (
@@ -38,9 +45,11 @@ export default function HeatMap(props){
     )
 }
 
-function drawChart(svgElement, interval, size, props){
+function drawChart(svgElement, renderData, currentMax, interval, size, props){
     const svg = d3.select(svgElement);
     svg.selectAll('*').remove();
+
+    const opacityScale = d3.scaleLinear([0, currentMax], [0.1, 1]);
 
     if(props.drawTitleLegend){
         // Draw title
@@ -53,20 +62,10 @@ function drawChart(svgElement, interval, size, props){
 
         // Draw legend
         svg.append('text')
-            .text('Increasing percentage of interval viewing a direction →')
+            .text('Increasing portion of interval viewing a direction →')
             .attr('font-size', 12)
             .attr('text-anchor', 'end')
-            .style('transform', `translate(${size.width}px, 20px)`)        
-        svg.append('text')
-            .text('0%')
-            .attr('font-size', 12)
-            .attr('text-anchor', 'start')
-            .style('transform', `translate(${size.width - 250}px, 70px)`)
-        svg.append('text')
-            .text('100%')
-            .attr('font-size', 12)
-            .attr('text-anchor', 'end')
-            .style('transform', `translate(${size.width}px, 70px)`)
+            .style('transform', `translate(${size.width}px, 20px)`)
 
         const def = svg.append('defs');
         const lingrad = def.append('linearGradient')
@@ -123,7 +122,7 @@ function drawChart(svgElement, interval, size, props){
     
     // datum(): shared data among selection
     // data(): one array item per selected element
-    g.datum(azimuthData[interval]).selectAll('path')
+    g.datum(renderData[interval]).selectAll('path')
         .data(pie)
         .join('path')
         .attr('fill', SLICE_COLOR)
@@ -134,8 +133,9 @@ function drawChart(svgElement, interval, size, props){
     return g;
 }
 
-function recolorChart(slices, interval){
-    slices.datum(azimuthData[interval]).selectAll('path')
+function recolorChart(slices, renderData, currentMax, interval){
+    const opacityScale = d3.scaleLinear([0, currentMax], [0.1, 1]);
+    slices.datum(renderData[interval]).selectAll('path')
         .data(pie)
         .attr('opacity', (d) => SLICE_MASK.includes(d.index) ? opacityScale(d.data) : 0)
 }
