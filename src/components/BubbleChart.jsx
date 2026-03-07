@@ -5,11 +5,13 @@ import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import bubbleData from '../../data/placeholder_bubble_data.json';
 import studyResults from '../../data/placeholder_combined_data.json';
+import { showTooltip, moveTooltip, hideTooltip } from '../utils';
 
 const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
 
 export default function BubbleChart(props){
     const svgRef = useRef(null);
+    const tooltipRef = useRef(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
 
     const onResize = useDebounceCallback((size) => setSize(size), 200);
@@ -46,17 +48,18 @@ export default function BubbleChart(props){
                 positive: false
             })
         }
-        drawChart(svgRef.current, terms, size);
+        drawChart(svgRef.current, terms, size, tooltipRef);
     }, [size, props.responseFilter]);
     
     return (
         <Box sx={{width: '100%', height: '100%'}}>
+            <Box ref={tooltipRef} className='tooltip'></Box>
             <svg ref={svgRef} width='100%' height='100%' textAnchor='middle' dominantBaseline='middle'><g></g></svg>
         </Box>
     )
 };
 
-function drawChart(svgElement, terms, size){
+function drawChart(svgElement, terms, size, tooltipRef){
     const svg = d3.select(svgElement);
 
     const color = d3.scaleOrdinal([true, false], [POSITIVE_COLOR, NEGATIVE_COLOR]);
@@ -81,6 +84,9 @@ function drawChart(svgElement, terms, size){
                     .attr('cy', d => d.y)
                     .attr('r', d => d.r)
                     .attr('fill', d => color(d.data.positive))
+                    .on('mouseover', (e, d) => showTooltip(e, d.data.value, tooltipRef))
+                    .on('mousemove', (e) => moveTooltip(e, tooltipRef))
+                    .on('mouseout', () => hideTooltip(tooltipRef))
             },
             function(update){
                 update
@@ -106,6 +112,7 @@ function drawChart(svgElement, terms, size){
         .attr('x', d => d.x)
         .attr('y', d => d.y)
         .text(d => d.data.term)
+        .attr('pointer-events', 'none')
         .attr('opacity', 0)
         .transition()
         .duration(200)

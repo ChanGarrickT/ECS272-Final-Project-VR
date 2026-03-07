@@ -5,6 +5,11 @@ import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import studyResults from '../../data/placeholder_combined_data.json';
 
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";  
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 const margins = {top: 60, bottom: 80, left: 60, right: 10};
 const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
 
@@ -62,6 +67,20 @@ const SurveyBar = forwardRef((props, ref) => {
             return newOrder;
         })
     }, [currentSortMode]);
+
+    useGSAP(() => {
+        gsap.from('#bar-page-chart', {
+            opacity: 0,
+            transform: 'rotateY(22deg)',
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: '#bar-page-chart',
+                start: 'top 60%',
+                end: 'top 40%',
+                scrub: true
+            }
+        })
+    });
     
     return (
         <Box ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px', paddingBottom: '50px'}}>
@@ -73,7 +92,7 @@ const SurveyBar = forwardRef((props, ref) => {
                     Note that the same feature could be viewed positively by one participant and negatively by another.
                 </p>
             </Box>
-            <Box sx={{width: '70%', height: '70%', margin: '50px auto', backgroundColor: "none", borderRadius: '20px'}}>
+            <Box id='bar-page-chart' sx={{width: '70%', height: '60%', margin: '50px auto', backgroundColor: "none", borderRadius: '20px'}}>
                 <svg ref={svgRef} width='100%' height='100%' textAnchor='middle' dominantBaseline='middle'><g></g></svg>
             </Box>
             <Box sx={{width: '100vw', display: 'flex', justifyContent: 'center'}}>

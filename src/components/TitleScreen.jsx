@@ -39,6 +39,7 @@ const TitleScreen = forwardRef((props, ref) => {
             <Grid size={8}>
                 <Box ref={ref} className='title-box'>
                     <h1>Visualizing Emotional State through <br /> Immersive Generated Environments</h1>
+                    <h2>Michael Martin, Garrick Chan</h2>
                     <p>
                         Medication is the standard means of relieving pain during and after surgery.
                         However, medication is not suitable for all patients.

@@ -6,6 +6,12 @@ import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import SankeyDiagram from './SankeyDiagram';
 import HeatMap from './HeatMap';
 import BubbleChart from './BubbleChart';
+import { showTooltip, moveTooltip, hideTooltip } from '../utils';
+
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";  
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const SLICE_COLOR = 'crimson';
 
@@ -24,22 +30,19 @@ const SummaryPage = forwardRef((props, ref) => {
         drawLegend(legendRef.current, size);
     }, [size]);
 
-    function showTooltip(e, text){
-        d3.select(tooltipRef.current)
-            .text(text)
-            .style('left', `${e.clientX + 10}px`)
-            .style('top', `${e.clientY + 10}px`)
-            .transition()
-            .duration(150)
-            .style('opacity', 1)
-    }
-
-    function hideTooltip(){
-        d3.select(tooltipRef.current)
-            .transition()
-            .duration(150)
-            .style('opacity', 0)
-    }
+    useGSAP(() => {
+        gsap.from('.summary-page-chart', {
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.3,
+            scrollTrigger: {
+                trigger: '#summary-page',
+                start: 'top 50%',
+                end: 'top 20%',
+                toggleActions: 'play none none reverse'
+            }
+        })
+    })
 
     const sankeyProps = {
         setResponseFilter: setResponseFilter
@@ -50,34 +53,42 @@ const SummaryPage = forwardRef((props, ref) => {
     }
 
     return (
-        <Box id='summary-page' ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px', display: 'flex', flexDirection: 'column'}}>
+        <Stack id='summary-page' ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px'}}>
             <Box className='header-box'>
                 <h1>Summary</h1>
                 <p>Now feel free to explore the data on your own! Click on the answers in the Sankey diagram to filter results by response.</p>
             </Box>
             <Box ref={tooltipRef} className='tooltip'></Box>
-            <Grid container sx={{flex: 1, padding: '20px 0'}}>
-                <Grid container size={12} sx={{height: '40vh'}}>
-                    <Grid size={8} sx={{paddingLeft: '50px', paddingRight: '30px'}}>
-                        <h2>Survey Responses</h2><br />
-                        <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                <Box sx={{display: 'flex', flexDirection: 'row', height: '40vh', minHeight: 0, marginBottom: '50px'}}>
+                    <Box className='summary-page-chart' sx={{flex: 2, paddingLeft: '50px', paddingRight: '30px', minHeight: 0}}>
+                        <h2>Survey Responses</h2>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', marginTop: '5px'}}>
                             {props.surveyQuestions.map((q, index) => {
-                                return <Box key={index} className='question-icon' onMouseOver={(e) => showTooltip(e, q)} onMouseOut={hideTooltip}>?</Box>
+                                return (
+                                    <Box
+                                        key={index}
+                                        className='question-icon'
+                                        onMouseOver={(e) => showTooltip(e, q, tooltipRef)}
+                                        onMouseMove={(e) => moveTooltip(e, tooltipRef)}
+                                        onMouseOut={(e) => hideTooltip(tooltipRef)}
+                                    >?</Box>
+                                )
                             })}
                         </Box>
-                        <Box sx={{width: '100%', height: '100%', padding: '10px 0 50px 0', boxSizing: 'border-box'}}>
+                        <Box sx={{width: '100%', height: '100%', minHeight: 0, padding: '10px 0 50px 0', boxSizing: 'border-box'}}>
                             <SankeyDiagram {...sankeyProps}/>
                         </Box>
-                    </Grid>
-                    <Grid size={4} sx={{position: 'relative'}}>
+                    </Box>
+                    <Box className='summary-page-chart' sx={{flex: 1, position: 'relative'}}>
                         <h2>Feedback Terms by Mention Count</h2>
                         <Box sx={{width: '100%', height: '100%', padding: '0 30px', boxSizing: 'border-box'}}>
                             <BubbleChart {...bubbleProps}/>
                         </Box>
-                    </Grid>
-                </Grid>
-                <Grid container size={12} spacing={5} sx={{height: '40%', position: 'relative', padding: '0 50px'}}>
-                    <Grid size={1.5} sx={{position: 'relative'}}>
+                    </Box>
+                </Box>
+                <Box sx={{flex: 1, display: 'flex', flexDirection: 'row', position: 'relative', padding: '20px 50px 0'}}>
+                    <Box className='summary-page-chart' sx={{flex: 1, position: 'relative'}}>
                         <h2>Split Heat Map</h2>
                         <p>The heatmap shown before is now split into three, making it easier to compare viewing behavior across scenes.</p>
                         <Box sx={{width: '100%', height: '10%', top: '5px', zIndex: 1, boxSizing: 'border-box'}}>
@@ -97,7 +108,7 @@ const SummaryPage = forwardRef((props, ref) => {
                                 <svg ref={legendRef} width='100%' height='100%'></svg>
                             </Box>
                         </Box>
-                    </Grid>
+                    </Box>
                     {['Busy', 'Moderate', 'Calm'].map((word, index)=> {
                         const chartProps = {
                             currentInterval: currentInterval,
@@ -106,17 +117,17 @@ const SummaryPage = forwardRef((props, ref) => {
                             responseFilter: responseFilter
                         }
                         return (
-                            <Grid key={index} size={3.5}>
+                            <Box key={index} className='summary-page-chart' sx={{flex: 2}}>
                                 <Box sx={{width: '100%', aspectRatio: 1.5}}>
                                     <h3 style={{textAlign: 'center'}}>{word + ' Scene'}</h3>
                                     <HeatMap {...chartProps}/>
                                 </Box>
-                            </Grid>
+                            </Box>
                         )
                     })}
-                </Grid>
-            </Grid>
-        </Box>
+                </Box>
+            </Box>
+        </Stack>
     )
 });
 

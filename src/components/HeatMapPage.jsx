@@ -6,6 +6,11 @@ import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import azimuthData from '../../data/placeholder_heatmap_data.json';
 import HeatMap from './HeatMap';
 
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";  
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 const DATA_MAX = 16;
 const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
 const SLICE_COLOR = 'crimson';
@@ -21,6 +26,20 @@ const HeatMapPage = forwardRef((props, ref) => {
 
     const onResize = useDebounceCallback((size) => setSize(size), 200);
     useResizeObserver({ ref: svgRef, onResize });
+
+    useGSAP(() => {
+        gsap.from('#heatmap-page-chart', {
+            opacity: 0,
+            transform: 'rotateY(22deg)',
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: '#heatmap-page-chart',
+                start: 'top 60%',
+                end: 'top 40%',
+                scrub: true
+            }
+        })
+    });
 
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
@@ -52,7 +71,7 @@ const HeatMapPage = forwardRef((props, ref) => {
                     Use the slider below to select an interval. A darker slice indicates more focus in that direction within that interval.
                 </p>
             </Box>    
-            <Box sx={{position: 'relative', width: '50%', minWidth: '720px', aspectRatio: '2', margin: "50px auto", borderRadius: '20px'}}>
+            <Box id='heatmap-page-chart' sx={{position: 'relative', width: '50%', minWidth: '720px', aspectRatio: '2', margin: "50px auto", borderRadius: '20px'}}>
                 <HeatMap {...chartProps}/>
             </Box>
             <Grid container sx={{position: 'relative', width: '30%', minWidth: '570px', margin: '0 auto', padding: '0 0 30px'}}>

@@ -35,8 +35,6 @@ function Layout() {
 	const [titleRef, sankeyRef, heatmapRef, barChartRef, summaryRef] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
 	useGSAP(() => {
-		const body = containerRef.current;
-
 		const sections = [
 			{ref: titleRef, color: '#EEE'},
 			{ref: sankeyRef, color: '#ffdda6'},
@@ -47,7 +45,7 @@ function Layout() {
 
 		// Set up scrollTrigger for each section
 		sections.forEach(({ ref, color }) => {
-			gsap.to(body, {
+			gsap.to('html', {
 				backgroundColor: color,
 				immediateRender: false,
 				scrollTrigger: {
@@ -60,6 +58,19 @@ function Layout() {
 			});
 		});
 
+		const headers = d3.selectAll('.header-box').nodes();
+		headers.forEach((header) => {
+			gsap.from(header, {
+				opacity: 0,
+				scrollTrigger: {
+					trigger: header,
+					start: 'top 90%',
+					end: 'top 40%',
+					scrub: true
+				}
+			});
+		});
+
 	});
 
 	const sankeyProps = {
@@ -68,7 +79,7 @@ function Layout() {
 
 	const summaryProps = {
 		surveyQuestions: surveyQuestions,
-		studyResults: studyResults
+		studyResults: studyResults,
 	}
 
     return (

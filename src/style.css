@@ -8,6 +8,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  overflow-x: hidden;
 }
 
 * {
@@ -28,7 +30,7 @@ p {
 
 .tooltip {
   position:fixed;
-  width: 250px;
+  max-width: 250px;
   padding: 15px;
   border-radius: 15px;
   color: white;
@@ -48,6 +50,7 @@ p {
 }
 
 .title-box > h1 {
+  padding-top: 10px;
   width: 70%;
   font-size: 32pt;
 }
@@ -71,7 +74,7 @@ p {
 #chevron2 {
   top: calc(90vh - 30px);
   margin: 0 45.5%;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .header-box {
