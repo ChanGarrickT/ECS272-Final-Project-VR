@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import studyResults from '../../data/placeholder_combined_data.json';
+import studyResults from '../../data/study_data.json';
 
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";  
@@ -11,7 +11,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const margins = {top: 60, bottom: 80, left: 60, right: 10};
-const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
+const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#81c8f2', '#77af77']
 
 let barData = [];
 let words = new Set();

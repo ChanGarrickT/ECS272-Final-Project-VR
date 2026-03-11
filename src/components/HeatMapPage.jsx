@@ -43,12 +43,12 @@ const HeatMapPage = forwardRef((props, ref) => {
 
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
-        sliceSelectionRef.current = drawChart(svgRef.current, currentInterval, size);
+        // sliceSelectionRef.current = drawChart(svgRef.current, currentInterval, size);
     }, [size]);
 
     useEffect(() => {
         if(!sliceSelectionRef.current) return;
-        recolorChart(sliceSelectionRef.current, currentInterval);
+        // recolorChart(sliceSelectionRef.current, currentInterval);
     }, [currentInterval]);
 
     const chartProps = {

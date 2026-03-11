@@ -4,10 +4,10 @@ import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import bubbleData from '../../data/placeholder_bubble_data.json';
-import studyResults from '../../data/placeholder_combined_data.json';
+import studyResults from '../../data/study_data.json';
 import { showTooltip, moveTooltip, hideTooltip } from '../utils';
 
-const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#63bcf0', '#6a9e6a']
+const [POSITIVE_COLOR, NEGATIVE_COLOR] = ['#81c8f2', '#77af77']
 
 export default function BubbleChart(props){
     const svgRef = useRef(null);
@@ -112,6 +112,8 @@ function drawChart(svgElement, terms, size, tooltipRef){
         .attr('x', d => d.x)
         .attr('y', d => d.y)
         .text(d => d.data.term)
+        .attr('font-size', 12)
+        .attr('font-weight', 500)
         .attr('pointer-events', 'none')
         .attr('opacity', 0)
         .transition()
@@ -138,11 +140,11 @@ function drawChart(svgElement, terms, size, tooltipRef){
     svg.append('text')
         .attr('text-anchor', 'start')
         .attr('transform', `translate(30, ${size.height / 2 - 15})`)
-        .text('Positive Aspect')
+        .text('Positive')
         .classed('legend', true)
     svg.append('text')
         .attr('text-anchor', 'start')
         .attr('transform', `translate(30, ${size.height / 2 + 15})`)
-        .text('Aspect to Improve')
+        .text('Negative')
         .classed('legend', true)
 }

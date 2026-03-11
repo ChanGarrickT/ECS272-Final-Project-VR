@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import surveyData from '../../data/placeholder_sankey_data.json';
+import surveyData from '../../data/sankey_data.json';
 
 const [graphNodes, graphLinks] = genGraph();
 
@@ -60,7 +60,7 @@ export default function SankeyDiagram(props){
 function genGraph(){
     const keys = ["experience", "before", "during", "after"];
     const qas = [
-        ['Never', 'Once/few times before', 'Occasionally', 'Regularly'],
+        ['Never', 'Once/few times before', 'Occasionally / Regularly'],
         ['More than typical', 'About typical', 'Less than typical'],
         ['More stressed', 'About the same', 'Less stressed'],
         ['Increased', 'Not much', 'Reduced']
@@ -154,7 +154,7 @@ function drawChart(svgElement, clickFunc, size){
     const rects = svg.append('g')
             .attr('fill', 'none')
         .selectAll('rect')
-        .data(nodes)
+        .data(nodes.filter(d => d.value > 0))
         .join('rect')
         .attr('x', d => d.x0)
         .attr('y', d => d.y0)
@@ -169,7 +169,7 @@ function drawChart(svgElement, clickFunc, size){
     // Labels
     svg.append('g')
         .selectAll('text')
-        .data(nodes)
+        .data(nodes.filter(d => d.value > 0))
         .join('text')
         .text(d => d.name)
         .attr('font-weight', 'bold')

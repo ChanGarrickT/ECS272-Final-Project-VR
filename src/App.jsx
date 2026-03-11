@@ -16,7 +16,7 @@ import TitleScreen from './components/TitleScreen';
 import SummaryPage from './components/SummaryPage';
 
 import surveyQuestions from '../data/survey_questions.json';
-import studyResults from '../data/placeholder_combined_data.json';
+import studyResults from '../data/study_data.json';
 
 // Adjust the color theme for material ui
 const theme = createTheme({
@@ -39,7 +39,7 @@ function Layout() {
 			{ref: titleRef, color: '#EEE'},
 			{ref: sankeyRef, color: '#ffdda6'},
 			{ref: heatmapRef, color: '#fdf2ab'},
-			{ref: barChartRef, color: '#AAD9BB'},
+			{ref: barChartRef, color: '#c0edd1'},
 			{ref: summaryRef, color: '#bfe9f6'}
 		];
 

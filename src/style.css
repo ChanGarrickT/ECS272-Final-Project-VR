@@ -36,6 +36,7 @@ p {
   color: white;
   background-color: #0008;
   opacity: 0;
+  z-index: 50;
 }
 
 #title-img {
@@ -123,13 +124,13 @@ p {
 }
 
 #sankey-page .path-link {
-  stroke: #cab67d;
+  stroke: #c6ba97;
   opacity: 0.5;
   transition: stroke 200ms;
 }
 
 #sankey-page .path-link-active {
-  stroke: #e87474;
+  stroke: #de5555;
 }
 
 #heatmap-page .slice {
@@ -201,13 +202,13 @@ p {
 }
 
 #summary-page .path-link {
-  stroke: #95b2d4;
+  stroke: #95bed0;
   opacity: 0.5;
   transition: stroke 200ms;
 }
 
 #summary-page .path-link-active {
-  stroke: #18c9ff;
+  stroke: #4b79db;
 }
 
 #summary-page .slice {

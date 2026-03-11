@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import { add, max } from 'mathjs';
-import studyResults from '../../data/placeholder_combined_data.json';
+import studyResults from '../../data/study_data.json';
 
 const SLICE_MASK = [0, 1, 2, 3, 4, 12, 13, 14, 15];
 const SLICE_COLOR = 'crimson';
