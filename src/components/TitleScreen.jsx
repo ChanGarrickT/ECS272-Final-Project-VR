@@ -49,7 +49,7 @@ const TitleScreen = forwardRef((props, ref) => {
                         In this project, we take the first steps towards this goal and conducted a pilot study.
                     </p>
                     <p>
-                        We show results from our pilot study.
+                        Scroll down to view results from our pilot study.
                         Participants completed a user survey and were shown three 1-minute AI-generated videos in sequence.
                     </p>
                 </Box>

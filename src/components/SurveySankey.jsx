@@ -40,10 +40,10 @@ const SurveySankey = forwardRef((props, ref) => {
             <Box className='header-box' sx={{marginBottom: '30px'}}>
                 <h1>Can AI-generated VR scenes relieve stress?</h1>
                 <p>
-                    We surveyed participants on their history of VR use, and their relative levels of stress before, during, and after the VR session.
+                    We surveyed 20 participants on their history of VR use, and their relative levels of stress before, during, and after the VR session.
                 </p>
                 <p>
-                    <b>Click on the rectangle</b> for a response to compare how participants who gave that response answered other questions.
+                    <b>Click on the dark rectangle</b> associated with a response to compare how participants who gave that response answered other questions.
                 </p>
                 <h2 style={{textAlign: 'center', marginTop: '50px'}}>Survey Responses Sankey Diagram</h2>
             </Box>

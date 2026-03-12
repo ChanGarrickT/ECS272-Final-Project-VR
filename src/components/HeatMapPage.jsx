@@ -3,7 +3,6 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import azimuthData from '../../data/placeholder_heatmap_data.json';
 import HeatMap from './HeatMap';
 
 import { gsap } from "gsap";
@@ -41,16 +40,6 @@ const HeatMapPage = forwardRef((props, ref) => {
         })
     });
 
-    useEffect(() => {
-        if(size.width === 0 || size.height === 0) return;
-        // sliceSelectionRef.current = drawChart(svgRef.current, currentInterval, size);
-    }, [size]);
-
-    useEffect(() => {
-        if(!sliceSelectionRef.current) return;
-        // recolorChart(sliceSelectionRef.current, currentInterval);
-    }, [currentInterval]);
-
     const chartProps = {
         currentInterval: currentInterval,
         intervalOffset: 0,
@@ -68,7 +57,7 @@ const HeatMapPage = forwardRef((props, ref) => {
                     "Forward" is defined as the starting orientation of each participant.
                 </p>
                 <p>
-                    Use the slider below to select an interval. A darker slice indicates more focus in that direction within that interval.
+                    <b>Use the slider below</b> to select an interval. A darker slice indicates more focus in that direction within that interval.
                 </p>
             </Box>    
             <Box id='heatmap-page-chart' sx={{position: 'relative', width: '50%', minWidth: '720px', aspectRatio: '2', margin: "50px auto", borderRadius: '20px'}}>

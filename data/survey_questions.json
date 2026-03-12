@@ -1,6 +1,6 @@
 [
-    "“How often do you use virtual reality (VR)?”",
-    "“How would you describe your current level of stress?”",
-    "“So far, are you less stressed, more stressed, or about the same?”",
-    "“How did your level of stress change from the start?”"
+    "Before: “How often do you use virtual reality (VR)?”",
+    "Before: “How would you describe your current level of stress?”",
+    "During: “So far, are you less stressed, more stressed, or about the same?”",
+    "After: “How did your level of stress change from the start?”"
 ]

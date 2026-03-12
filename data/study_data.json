@@ -787,7 +787,7 @@
         "q3": 2,
         "q4": 2,
         "pTerms": ["sound", "motion"],
-        "nTerms": ["peripherals"],
+        "nTerms": ["visual quality"],
         "azimuth": [
             [40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5],
             [28,5,0,0,0,0,0,0,0,0,0,0,0,0,0,12],

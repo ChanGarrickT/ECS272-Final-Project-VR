@@ -3,7 +3,6 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
-import bubbleData from '../../data/placeholder_bubble_data.json';
 import studyResults from '../../data/study_data.json';
 import { showTooltip, moveTooltip, hideTooltip } from '../utils';
 

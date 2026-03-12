@@ -4,6 +4,8 @@ import * as d3 from 'd3';
 import { isEmpty } from 'lodash';
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts';
 import studyResults from '../../data/study_data.json';
+import feedbackResults from '../../data/feedback.json';
+import { showTooltip, moveTooltip, hideTooltip } from '../utils';
 
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";  
@@ -45,6 +47,7 @@ for (const d of barData){
 
 const SurveyBar = forwardRef((props, ref) => {
     const svgRef = useRef(null);
+    const tooltipRef = useRef(null);
     const [positiveBarsRef, negativeBarsRef, xAxisRef, yScaleRef] = [useRef(null), useRef(null), useRef(null), useRef(null)];
     const [size, setSize] = useState({ width: 0, height: 0 });
     const [data, setData] = useState([...barData].toSorted(getSortFunc('total')));
@@ -53,17 +56,19 @@ const SurveyBar = forwardRef((props, ref) => {
     const onResize = useDebounceCallback((size) => setSize(size), 200);
     useResizeObserver({ ref: svgRef, onResize });
 
+    // Redraw on resize
     useEffect(() => {
         if(size.width === 0 || size.height === 0) return;
         [positiveBarsRef.current, negativeBarsRef.current, xAxisRef.current, yScaleRef.current] = drawChart(svgRef.current, size);
-        reorderChart(data, size, positiveBarsRef.current, negativeBarsRef.current, xAxisRef.current, yScaleRef.current);
+        reorderChart(data, size, positiveBarsRef.current, negativeBarsRef.current, xAxisRef.current, yScaleRef.current, tooltipRef);
     }, [size]);
 
+    // Reorder bars based on sorting mode
     useEffect(() => {
         if(!positiveBarsRef.current || !negativeBarsRef.current || !xAxisRef.current) return;
         setData((prev) => {
             const newOrder = [...prev].toSorted(getSortFunc(currentSortMode));
-            reorderChart(newOrder, size, positiveBarsRef.current, negativeBarsRef.current, xAxisRef.current, yScaleRef.current);
+            reorderChart(newOrder, size, positiveBarsRef.current, negativeBarsRef.current, xAxisRef.current, yScaleRef.current, tooltipRef);
             return newOrder;
         })
     }, [currentSortMode]);
@@ -84,12 +89,16 @@ const SurveyBar = forwardRef((props, ref) => {
     
     return (
         <Box ref={ref} sx={{position: 'relative', width: '100vw', height: '100vh', minHeight: '720px', paddingBottom: '50px'}}>
+            <Box ref={tooltipRef} className='tooltip'></Box>
             <Box className='header-box'>
                 <h1>What factors should AI-generated scenes consider?</h1>
                 <p>
                     We asked participants what aspects of the AI-generated VR experience they liked (blue) or disliked (yellow).
                     This bar chart shows how many participants noted particular key terms in their feedback.
                     Note that the same feature could be viewed positively by one participant and negatively by another.
+                </p>
+                <p>
+                    <b>Hover over a bar</b> to view more details for the key term.
                 </p>
             </Box>
             <Box id='bar-page-chart' sx={{width: '70%', height: '60%', margin: '50px auto', backgroundColor: "none", borderRadius: '20px'}}>
@@ -180,7 +189,7 @@ function drawChart(svgElement, size){
     return [positiveBars, negativeBars, xAxis, yScale]
 }
 
-function reorderChart(data, size, positiveBars, negativeBars, xAxis, yScale){
+function reorderChart(data, size, positiveBars, negativeBars, xAxis, yScale, tooltipRef){
     const terms = [];
     for (const d of data){
         terms.push(d.term);
@@ -202,6 +211,9 @@ function reorderChart(data, size, positiveBars, negativeBars, xAxis, yScale){
                     .attr('width', xScale.bandwidth() * 0.4)
                     .attr('height', d => Math.abs(yScale(0) - yScale(d.positive)))
                     .attr('fill', POSITIVE_COLOR)
+                    .on('mouseover', (e, d) => showTooltip(e, feedbackResults[d.term], tooltipRef))
+                    .on('mousemove', (e) => moveTooltip(e, tooltipRef))
+                    .on('mouseout', () => hideTooltip(tooltipRef))
             },
             function(update){
                 update.transition()
@@ -240,6 +252,9 @@ function reorderChart(data, size, positiveBars, negativeBars, xAxis, yScale){
                     .attr('width', xScale.bandwidth() * 0.4)
                     .attr('height', d => Math.abs(yScale(0) - yScale(d.negative)))
                     .attr('fill', NEGATIVE_COLOR)
+                    .on('mouseover', (e, d) => showTooltip(e, feedbackResults[d.term], tooltipRef))
+                    .on('mousemove', (e) => moveTooltip(e, tooltipRef))
+                    .on('mouseout', () => hideTooltip(tooltipRef))
             },
             function(update){
                 update.transition()
